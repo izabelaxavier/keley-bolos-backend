@@ -41,9 +41,9 @@ src/main/java/com/izabelaxavier/keleybolosapi
 
 ---
 
-## 📅 Evolução do projeto
+📅 Evolução do projeto
 
-### 13/05/2026
+13/05/2026
 - Criação inicial do projeto
 - Configuração do Spring Boot
 - Estruturação inicial da API
@@ -54,12 +54,12 @@ src/main/java/com/izabelaxavier/keleybolosapi
 - Integração com banco H2
 - Primeiros testes no Postman
 
-### 14/05/2026
+14/05/2026
 - Configuração inicial do Spring Security
 - Ajustes e melhorias na estrutura da API
 - Organização dos pacotes do projeto
 
-### 15/05/2026
+15/05/2026
 - Criação da entidade Pedido
 - Modelagem inicial das regras de negócio
 - Implementação de LocalDate para data de retirada
@@ -67,21 +67,21 @@ src/main/java/com/izabelaxavier/keleybolosapi
 - Estruturação dos atributos de pedidos
 - Melhor entendimento sobre modelagem de entidades e tipos de dados
 
----
+18/05/2026
+- Implementação do relacionamento `@ManyToOne` entre Pedido e Produto
+- Criação e estruturação do PedidoRepository e PedidoController (Endpoints GET e POST)
+- Ajuste fino na arquitetura com Spring Security: correção de bloqueio e liberação de rotas públicas para testes (`/pedidos/**`)
+- Testes práticos de ponta a ponta via Postman, validando a persistência correta de chaves estrangeiras no banco H2
 
-## 🎯 Próximos passos
-
-- Relacionamento entre Pedido e Produto
-- Criação do PedidoRepository
-- Criação do PedidoController
+🎯 Próximos passos
 - Integração entre frontend e backend
 - Banco PostgreSQL
 - Deploy da aplicação
 - Integração futura com WhatsApp
 - Painel administrativo
 
----
-
+  ----
+  
 ## 👩‍💻 Desenvolvido por
 
 Izabela Xavier
