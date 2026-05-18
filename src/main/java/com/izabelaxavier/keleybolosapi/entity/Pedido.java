@@ -19,4 +19,7 @@ public class Pedido {
     private String observacoes;
     private LocalDate dataRetirada;
     private LocalTime horarioRetirada;
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
 }
