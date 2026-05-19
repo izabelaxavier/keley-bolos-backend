@@ -1,4 +1,8 @@
 # 🍰 KELEY BOLOS Backend
+![Java](https://img.shields.io/badge/Java-17-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen)
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 API backend desenvolvida com **Java + Spring Boot** para gerenciamento de encomendas da **KELEY BOLOS**.
 
