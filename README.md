@@ -189,8 +189,41 @@ Endpoints implementados:
 - Painel administrativo
 
 ---
+## ▶️ Como executar o projeto
 
+```bash
+git clone https://github.com/izabelaxavier/keley-bolos-backend.git
+
+cd keley-bolos-backend
+
+mvn spring-boot:run
+```
+
+Aplicação disponível em:
+
+http://localhost:8080
+
+---
+
+## 📡 Endpoints
+
+### Produtos
+
+- POST /produtos
+- GET /produtos
+- PUT /produtos/{id}
+- DELETE /produtos/{id}
+
+### Pedidos
+
+- POST /pedidos
+- GET /pedidos
+- GET /pedidos/{id}
+- PUT /pedidos/{id}
+- DELETE /pedidos/{id}
 ## 👩‍💻 Desenvolvido por
+
+---
 
 **Izabela Xavier**
 
