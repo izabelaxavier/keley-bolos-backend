@@ -184,6 +184,25 @@ Endpoints implementados:
 
 ---
 
+### 📌 20/05/2026 🏗️ (Refatoração e Criação da Camada Service)
+
+#### ⚡ Isolamento da Lógica de Negócio
+* Criação do pacote `service` e da classe `PedidoService`.
+* Transferência de toda a lógica de persistência, buscas e regras de validação que antes ficavam diretamente no controlador.
+* Centralização do método utilitário `converterParaResponseDTO` na camada de serviço, eliminando duplicações de código.
+
+#### 🎮 Simplificação do Controller
+* Refatoração completa do `PedidoController`, deixando-o focado exclusivamente na responsabilidade HTTP (receber a requisição e entregar o status correto).
+* Remoção das injeções diretas de `PedidoRepository` e `ProdutoRepository` no controlador, passando a injetar apenas o `PedidoService`.
+
+#### 🧩 Uso Avançado de Optional e Streams
+* Implementação do fluxo de buscas (`buscarPorId`) e atualizações (`atualizar`) utilizando retornos encapsulados em `Optional<PedidoResponseDTO>`.
+* Uso da estrutura funcional `.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build())` no Controller, tornando as respostas HTTP mais elegantes e sem blocos `if/else` manuais.
+
+#### 🧪 Validação Prática
+* Testes de regressão completos executados via Postman para revalidar todos os fluxos do CRUD (`POST`, `GET`, `PUT`, `DELETE`).
+* Resultados 100% integrados, mantendo as respostas semânticas originais (`200 OK`, `201 Created`, `204 No Content` e `404 Not Found`) com ganhos expressivos em organização de código.
+
 ## 🎯 Próximos passos
 
 - Integração com frontend
