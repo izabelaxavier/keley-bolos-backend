@@ -5,154 +5,246 @@
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-API backend desenvolvida com **Java + Spring Boot** para gerenciamento de encomendas da **KELEY BOLOS**.
+API REST desenvolvida com **Java + Spring Boot** para gerenciamento de encomendas da **KELEY BOLOS**.
 
-O objetivo do projeto é criar um sistema real de pedidos para auxiliar no controle de encomendas, produtos, horários de retirada e futuras integrações com WhatsApp e painel administrativo.
-
----
-
-## 🚀 Tecnologias utilizadas
-
-- Java 17  
-- Spring Boot  
-- Spring Data JPA  
-- Spring Security  
-- H2 Database  
-- Lombok  
-- Maven  
+O projeto simula um sistema real de pedidos para confeitaria, permitindo o gerenciamento de produtos, encomendas, datas de retirada e regras de negócio, servindo também como projeto de estudo e evolução prática em desenvolvimento backend.
 
 ---
 
-## 📌 Funcionalidades
+# 🚀 Tecnologias utilizadas
 
-### 🍞 Produtos
-- CRUD completo de produtos
-
-### 🧾 Pedidos
-- CRUD completo de pedidos
-
-### ⚙️ Recursos implementados
-
-- Arquitetura em camadas (Controller, Service, Repository)
-- DTOs (`PedidoDTO` e `PedidoResponseDTO`)
-- Validação com Spring Validation (`@Valid`, `@NotNull`, `@Positive`)
-- Tratamento global de exceções (`@ControllerAdvice`)
-- Uso de `BigDecimal` para valores monetários
-- Controle de data e horário (`LocalDate`, `LocalTime`)
-- Relacionamento entre entidades (`@ManyToOne`)
-- Uso de `Optional` e programação funcional no Service
-- Respostas padronizadas via DTO
-- Banco em memória H2
-- Testes via Postman
+- Java 17
+- Spring Boot 3
+- Spring Data JPA
+- Spring Security
+- Spring Validation
+- H2 Database
+- Lombok
+- Maven
+- Swagger / OpenAPI
+- Postman
 
 ---
 
-## 📂 Estrutura do projeto
+# 📌 Funcionalidades
 
+## 🍞 Produtos
+✅ Criar produto  
+✅ Listar produtos  
+✅ Atualizar produto  
+✅ Remover produto  
+
+## 🧾 Pedidos
+✅ Criar pedido  
+✅ Listar pedidos  
+✅ Buscar pedido por ID  
+✅ Atualizar pedido  
+✅ Excluir pedido  
+
+---
+
+# ⚙️ Recursos implementados
+
+### Arquitetura
+- Arquitetura em camadas:
+    - Controller
+    - Service
+    - Repository
+    - DTO
+    - Exception Handler
+
+### Validação e segurança
+
+- Validação com Spring Validation:
+    - `@Valid`
+    - `@NotNull`
+    - `@Positive`
+
+- Tratamento global de exceções com:
+
+```java
+@ControllerAdvice
+```
+
+- Configuração inicial do Spring Security
+
+### Regras de negócio
+
+- DTOs:
+    - `PedidoDTO`
+    - `PedidoResponseDTO`
+
+- Relacionamento:
+
+```java
+@ManyToOne
+```
+
+(Pedido → Produto)
+
+- Uso de:
+
+```java
+Optional
+```
+
+- Programação funcional:
+
+```java
+.map()
+.orElseGet()
+```
+
+### Banco e testes
+
+- Banco H2 em memória
+- Testes completos via Postman
+- Documentação interativa via Swagger
+
+---
+
+# 📂 Estrutura do projeto
+
+```bash
 src/main/java/com/izabelaxavier/keleybolosapi
+│
+├── config
 ├── controller
 ├── dto
 ├── entity
 ├── exception
 ├── repository
-├── security
 └── service
+```
 
 ---
 
-## 📅 Evolução do projeto
+# 📅 Evolução do projeto
 
-### 📌 13/05/2026
-- Criação inicial do projeto
-- Configuração do Spring Boot
-- Estrutura base da API
-- CRUD de Produtos
-- Integração com H2
-- Primeiros testes no Postman
+## 📌 13/05/2026
+- Inicialização do projeto
+- Configuração Spring Boot
+- CRUD Produtos
+- Integração H2
+- Primeiros testes Postman
 
-### 📌 14/05/2026
-- Configuração inicial do Spring Security
-- Organização de pacotes e estrutura
+## 📌 14/05/2026
+- Configuração inicial Spring Security
+- Organização da arquitetura
 
-### 📌 15/05/2026
-- Criação da entidade Pedido
-- Uso de `LocalDate` e `LocalTime`
-- Modelagem inicial das regras de negócio
+## 📌 15/05/2026
+- Criação entidade Pedido
+- Implementação LocalDate e LocalTime
+- Modelagem inicial
 
-### 📌 18/05/2026 🚀
-- Relacionamento @ManyToOne (Pedido → Produto)
-- Criação de Repository e Controller de pedidos
-- Implementação de POST e GET
-- DTOs de entrada e saída
+## 📌 18/05/2026 🚀
+- Relacionamento Pedido → Produto
+- Repository e Controller de pedidos
+- DTOs
 - Uso de BigDecimal
-- Testes completos no Postman (201 Created)
+- Testes POST / GET
 
-### 📌 19/05/2026 ⚡
+## 📌 19/05/2026 ⚡
 - GET /pedidos/{id}
 - PUT /pedidos/{id}
 - DELETE /pedidos/{id}
+- CRUD completo
+- Tratamento 404 / 200 / 204
+
+## 📌 20/05/2026 🏗️
+- Camada Service
+- Refatoração Controllers
+- Centralização das regras
 - Uso de Optional
-- Tratamento de 404/200/204
-- CRUD completo de pedidos
 
-### 📌 20/05/2026 🏗️
-- Criação da camada Service
-- Refatoração do Controller
-- Centralização da regra de negócio
-- Uso de .map() e .orElseGet()
-
-### 📌 21/05/2026 🛡️
-- Validação com Spring Validation
-- Implementação de @ControllerAdvice
-- Tratamento global de erros (400 Bad Request)
-- Respostas de erro estruturadas por campo
+## 📌 21/05/2026 🛡️
+- Bean Validation
+- Global Exception Handler
+- Respostas padronizadas
+- Tratamento de 400 Bad Request
+- Integração Swagger / OpenAPI
 
 ---
 
-## 🎯 Próximos passos
+# 📡 Endpoints
 
-- Integração com frontend
-- Migração para PostgreSQL
-- Deploy da aplicação
-- Integração com WhatsApp
-- Painel administrativo
+## Produtos
+
+| Método | Endpoint |
+|---------|-----------|
+| POST | /produtos |
+| GET | /produtos |
+| PUT | /produtos/{id} |
+| DELETE | /produtos/{id} |
+
+## Pedidos
+
+| Método | Endpoint |
+|---------|-----------|
+| POST | /pedidos |
+| GET | /pedidos |
+| GET | /pedidos/{id} |
+| PUT | /pedidos/{id} |
+| DELETE | /pedidos/{id} |
 
 ---
 
-## ▶️ Como executar o projeto
+# 📖 Swagger
 
+Após executar a aplicação:
+
+```bash
+http://localhost:8080/swagger-ui/index.html
+```
+
+---
+
+# ▶️ Executando localmente
+
+Clone o repositório:
+
+```bash
 git clone https://github.com/izabelaxavier/keley-bolos-backend.git
+```
 
+Entrar na pasta:
+
+```bash
 cd keley-bolos-backend
+```
 
+Executar:
+
+```bash
 mvn spring-boot:run
+```
 
-A aplicação ficará disponível em:
+Aplicação disponível:
 
+```bash
 http://localhost:8080
+```
 
 ---
 
-## 📡 Endpoints
+# 🎯 Próximos passos
 
-### 🍞 Produtos
-- POST /produtos  
-- GET /produtos  
-- PUT /produtos/{id}  
-- DELETE /produtos/{id}  
-
-### 🧾 Pedidos
-- POST /pedidos  
-- GET /pedidos  
-- GET /pedidos/{id}  
-- PUT /pedidos/{id}  
-- DELETE /pedidos/{id}  
+- [ ] PostgreSQL
+- [ ] Deploy
+- [ ] Integração Frontend
+- [ ] Integração WhatsApp
+- [ ] Painel administrativo
+- [ ] JWT Authentication
+- [ ] Docker
 
 ---
 
-## 👩‍💻 Desenvolvido por
+# 👩‍💻 Desenvolvido por
 
-Izabela Xavier
+**Izabela Xavier**
 
-LinkedIn: https://www.linkedin.com/in/izabela-xavier-dev/  
-GitHub: https://github.com/izabelaxavier  
+LinkedIn:  
+https://www.linkedin.com/in/izabela-xavier-dev/
+
+GitHub:  
+https://github.com/izabelaxavier
