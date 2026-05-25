@@ -4,6 +4,7 @@ import com.izabelaxavier.keleybolosapi.dto.PedidoDTO;
 import com.izabelaxavier.keleybolosapi.dto.PedidoResponseDTO;
 import com.izabelaxavier.keleybolosapi.entity.Pedido;
 import com.izabelaxavier.keleybolosapi.entity.Produto;
+import com.izabelaxavier.keleybolosapi.exception.ProdutoNaoEncontradoException;
 import com.izabelaxavier.keleybolosapi.repository.PedidoRepository;
 import com.izabelaxavier.keleybolosapi.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,84 +20,225 @@ public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final ProdutoRepository produtoRepository;
 
-    public PedidoResponseDTO criar(PedidoDTO pedidoDTO) {
-        Produto produto = produtoRepository.findById(
-                pedidoDTO.getProdutoId()
-        ).orElseThrow(() -> new RuntimeException(
-                "Produto não encontrado com ID: " + pedidoDTO.getProdutoId()
-        ));
+    public PedidoResponseDTO criar(
+            PedidoDTO pedidoDTO
+    ) {
 
-        Pedido pedido = new Pedido();
-        pedido.setQuantidade(pedidoDTO.getQuantidade());
-        pedido.setFormaPagamento(pedidoDTO.getFormaPagamento());
-        pedido.setObservacoes(pedidoDTO.getObservacoes());
-        pedido.setDataRetirada(pedidoDTO.getDataRetirada());
-        pedido.setHorarioRetirada(pedidoDTO.getHorarioRetirada());
-        pedido.setProduto(produto);
+        Produto produto =
+                produtoRepository.findById(
+                        pedidoDTO.getProdutoId()
+                ).orElseThrow(() ->
 
-        Pedido pedidoSalvo = pedidoRepository.save(pedido);
-        return converterParaResponseDTO(pedidoSalvo);
+                        new ProdutoNaoEncontradoException(
+                                "Produto não encontrado com ID: "
+                                        + pedidoDTO.getProdutoId()
+                        )
+
+                );
+
+        Pedido pedido =
+                new Pedido();
+
+        pedido.setQuantidade(
+                pedidoDTO.getQuantidade()
+        );
+
+        pedido.setFormaPagamento(
+                pedidoDTO.getFormaPagamento()
+        );
+
+        pedido.setObservacoes(
+                pedidoDTO.getObservacoes()
+        );
+
+        pedido.setDataRetirada(
+                pedidoDTO.getDataRetirada()
+        );
+
+        pedido.setHorarioRetirada(
+                pedidoDTO.getHorarioRetirada()
+        );
+
+        pedido.setProduto(
+                produto
+        );
+
+        Pedido pedidoSalvo =
+                pedidoRepository.save(
+                        pedido
+                );
+
+        return converterParaResponseDTO(
+                pedidoSalvo
+        );
     }
 
-    public List<PedidoResponseDTO> listarTodos() {
-        List<Pedido> pedidos = pedidoRepository.findAll();
+    public List<PedidoResponseDTO>
+    listarTodos() {
+
+        List<Pedido> pedidos =
+                pedidoRepository.findAll();
+
         return pedidos.stream()
-                .map(this::converterParaResponseDTO)
+                .map(
+                        this::converterParaResponseDTO
+                )
                 .toList();
     }
 
-    public Optional<PedidoResponseDTO> buscarPorId(Long id) {
-        return pedidoRepository.findById(id)
-                .map(this::converterParaResponseDTO);
+    public Optional<PedidoResponseDTO>
+    buscarPorId(
+            Long id
+    ) {
+
+        return pedidoRepository.findById(
+                id
+        ).map(
+                this::converterParaResponseDTO
+        );
     }
 
-    public boolean deletar(Long id) {
-        if (!pedidoRepository.existsById(id)) {
+    public boolean deletar(
+            Long id
+    ) {
+
+        if (
+                !pedidoRepository.existsById(
+                        id
+                )
+        ) {
+
             return false;
+
         }
-        pedidoRepository.deleteById(id);
+
+        pedidoRepository.deleteById(
+                id
+        );
+
         return true;
     }
 
-    public Optional<PedidoResponseDTO> atualizar(Long id, PedidoDTO pedidoDTO) {
-        Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
+    public Optional<PedidoResponseDTO>
+    atualizar(
+            Long id,
+            PedidoDTO pedidoDTO
+    ) {
 
-        if (pedidoOptional.isEmpty()) {
+        Optional<Pedido> pedidoOptional =
+                pedidoRepository.findById(
+                        id
+                );
+
+        if (
+                pedidoOptional.isEmpty()
+        ) {
+
             return Optional.empty();
+
         }
 
-        Produto produto = produtoRepository.findById(
-                pedidoDTO.getProdutoId()
-        ).orElseThrow(() -> new RuntimeException(
-                "Produto não encontrado com ID: " + pedidoDTO.getProdutoId()
-        ));
+        Produto produto =
+                produtoRepository.findById(
+                        pedidoDTO.getProdutoId()
+                ).orElseThrow(() ->
 
-        Pedido pedido = pedidoOptional.get();
-        pedido.setQuantidade(pedidoDTO.getQuantidade());
-        pedido.setFormaPagamento(pedidoDTO.getFormaPagamento());
-        pedido.setObservacoes(pedidoDTO.getObservacoes());
-        pedido.setDataRetirada(pedidoDTO.getDataRetirada());
-        pedido.setHorarioRetirada(pedidoDTO.getHorarioRetirada());
-        pedido.setProduto(produto);
+                        new ProdutoNaoEncontradoException(
+                                "Produto não encontrado com ID: "
+                                        + pedidoDTO.getProdutoId()
+                        )
 
-        Pedido pedidoAtualizado = pedidoRepository.save(pedido);
-        return Optional.of(converterParaResponseDTO(pedidoAtualizado));
+                );
+
+        Pedido pedido =
+                pedidoOptional.get();
+
+        pedido.setQuantidade(
+                pedidoDTO.getQuantidade()
+        );
+
+        pedido.setFormaPagamento(
+                pedidoDTO.getFormaPagamento()
+        );
+
+        pedido.setObservacoes(
+                pedidoDTO.getObservacoes()
+        );
+
+        pedido.setDataRetirada(
+                pedidoDTO.getDataRetirada()
+        );
+
+        pedido.setHorarioRetirada(
+                pedidoDTO.getHorarioRetirada()
+        );
+
+        pedido.setProduto(
+                produto
+        );
+
+        Pedido pedidoAtualizado =
+                pedidoRepository.save(
+                        pedido
+                );
+
+        return Optional.of(
+                converterParaResponseDTO(
+                        pedidoAtualizado
+                )
+        );
     }
 
-    private PedidoResponseDTO converterParaResponseDTO(Pedido pedido) {
-        PedidoResponseDTO dto = new PedidoResponseDTO();
-        dto.setId(pedido.getId());
-        dto.setQuantidade(pedido.getQuantidade());
-        dto.setFormaPagamento(pedido.getFormaPagamento());
-        dto.setObservacoes(pedido.getObservacoes());
-        dto.setDataRetirada(pedido.getDataRetirada());
-        dto.setHorarioRetirada(pedido.getHorarioRetirada());
+    private PedidoResponseDTO
+    converterParaResponseDTO(
+            Pedido pedido
+    ) {
 
-        if (pedido.getProduto() != null) {
-            dto.setProdutoNome(pedido.getProduto().getNome());
-            dto.setProdutoPreco(pedido.getProduto().getPreco());
+        PedidoResponseDTO dto =
+                new PedidoResponseDTO();
+
+        dto.setId(
+                pedido.getId()
+        );
+
+        dto.setQuantidade(
+                pedido.getQuantidade()
+        );
+
+        dto.setFormaPagamento(
+                pedido.getFormaPagamento()
+        );
+
+        dto.setObservacoes(
+                pedido.getObservacoes()
+        );
+
+        dto.setDataRetirada(
+                pedido.getDataRetirada()
+        );
+
+        dto.setHorarioRetirada(
+                pedido.getHorarioRetirada()
+        );
+
+        if (
+                pedido.getProduto()
+                        != null
+        ) {
+
+            dto.setProdutoNome(
+                    pedido.getProduto()
+                            .getNome()
+            );
+
+            dto.setProdutoPreco(
+                    pedido.getProduto()
+                            .getPreco()
+            );
+
         }
 
         return dto;
     }
+
 }
