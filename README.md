@@ -68,6 +68,22 @@ O projeto simula um sistema real de pedidos para confeitaria, permitindo o geren
 
 - Configuração inicial do Spring Security
 
+### Tratamento de exceções
+
+- Exceção personalizada:
+
+```java
+ProdutoNaoEncontradoException
+```
+
+- Uso de:
+
+```java
+orElseThrow()
+```
+
+- Retorno HTTP 404 para recursos inexistentes
+
 ### Regras de negócio
 
 - DTOs:
@@ -93,6 +109,7 @@ Optional
 ```java
 .map()
 .orElseGet()
+.orElseThrow()
 ```
 
 ### Banco e testes
@@ -100,6 +117,10 @@ Optional
 - Banco H2 em memória
 - Testes completos via Postman
 - Documentação interativa via Swagger
+- Testes de:
+    - 201 Created
+    - 400 Bad Request
+    - 404 Not Found
 
 ---
 
@@ -163,6 +184,18 @@ src/main/java/com/izabelaxavier/keleybolosapi
 - Respostas padronizadas
 - Tratamento de 400 Bad Request
 - Integração Swagger / OpenAPI
+
+## 📌 25/05/2026 🚨
+- Criação da exceção personalizada `ProdutoNaoEncontradoException`
+- Implementação de `orElseThrow()`
+- Tratamento específico para produto inexistente
+- Retorno HTTP 404 via `@ControllerAdvice`
+- Eliminação de erro genérico 500 Internal Server Error
+- Testes completos via Postman
+- Fluxo validado:
+    - Produto existente → 201 Created
+    - Produto inexistente → 404 Not Found
+    - Dados inválidos → 400 Bad Request
 
 ---
 
