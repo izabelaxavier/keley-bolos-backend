@@ -196,6 +196,49 @@ src/main/java/com/izabelaxavier/keleybolosapi
     - Produto existente → 201 Created
     - Produto inexistente → 404 Not Found
     - Dados inválidos → 400 Bad Request
+    
+## 📌 08/06/2026 🎂
+Adicionado campo nomeCliente na entidade Pedido
+Adicionado campo nomeCliente no PedidoDTO
+Adicionado campo nomeCliente no PedidoResponseDTO
+Atualização da camada Service para persistência do cliente
+Atualização do fluxo de criação e atualização de pedidos
+Implementação do mapeamento do cliente entre DTOs e entidade
+Testes realizados via Swagger/OpenAPI
+Validação completa do fluxo de pedidos
+Funcionalidades adicionadas
+Associação de pedidos a clientes
+Persistência do nome do cliente no banco de dados
+Retorno do nome do cliente nas respostas da API
+Consulta de pedidos contendo dados do cliente
+Fluxo validado
+
+✅ Cadastro de produto
+
+✅ Cadastro de pedido vinculado ao produto
+
+✅ Persistência do nome do cliente
+
+✅ Consulta individual de pedido
+
+✅ Consulta geral de pedidos
+
+✅ Atualização de pedidos
+
+✅ Exclusão de pedidos
+
+Exemplo de resposta
+{
+  "id": 1,
+  "nomeCliente": "Izabela Xavier",
+  "quantidade": 2,
+  "formaPagamento": "PIX",
+  "observacoes": "Sem cobertura",
+  "dataRetirada": "2026-06-10",
+  "horarioRetirada": "14:00:00",
+  "produtoNome": "Bolo de Chocolate",
+  "produtoPreco": 70
+}
 
 ---
 
