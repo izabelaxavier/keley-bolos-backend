@@ -39,7 +39,8 @@ O projeto simula um sistema real de pedidos para confeitaria, permitindo o geren
 ✅ Listar pedidos  
 ✅ Buscar pedido por ID  
 ✅ Atualizar pedido  
-✅ Excluir pedido  
+✅ Excluir pedido 
+✅ Associar pedido a cliente
 
 ---
 
