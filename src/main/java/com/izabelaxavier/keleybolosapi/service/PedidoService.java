@@ -39,6 +39,10 @@ public class PedidoService {
         Pedido pedido =
                 new Pedido();
 
+        pedido.setNomeCliente(
+                pedidoDTO.getNomeCliente()
+        );
+
         pedido.setQuantidade(
                 pedidoDTO.getQuantidade()
         );
@@ -153,6 +157,10 @@ public class PedidoService {
         Pedido pedido =
                 pedidoOptional.get();
 
+        pedido.setNomeCliente(
+                pedidoDTO.getNomeCliente()
+        );
+
         pedido.setQuantidade(
                 pedidoDTO.getQuantidade()
         );
@@ -199,6 +207,10 @@ public class PedidoService {
 
         dto.setId(
                 pedido.getId()
+        );
+
+        dto.setNomeCliente(
+                pedido.getNomeCliente()
         );
 
         dto.setQuantidade(

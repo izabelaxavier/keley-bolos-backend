@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Positive;
 @Data
 public class PedidoDTO {
 
+    private String nomeCliente;
+
     @NotNull(message = "Quantidade é obrigatória")
     @Positive(message = "Quantidade deve ser maior que zero")
     private Integer quantidade;
