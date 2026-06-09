@@ -1,5 +1,6 @@
 package com.izabelaxavier.keleybolosapi.entity;
 
+import com.izabelaxavier.keleybolosapi.enums.StatusPedido;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ import java.time.LocalTime;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status;
     private Long id;
     private String nomeCliente;
     private Integer quantidade;

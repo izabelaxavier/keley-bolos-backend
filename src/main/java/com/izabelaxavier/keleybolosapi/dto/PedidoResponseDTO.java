@@ -1,5 +1,6 @@
 package com.izabelaxavier.keleybolosapi.dto;
 
+import com.izabelaxavier.keleybolosapi.enums.StatusPedido;
 import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,5 +26,7 @@ public class PedidoResponseDTO {
     private String produtoNome;
 
     private BigDecimal produtoPreco;
+
+    private StatusPedido status;
 
 }
