@@ -12,17 +12,26 @@ import java.time.LocalTime;
 @Setter
 @Entity
 public class Pedido {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nomeCliente;
+
+    private Integer quantidade;
+
+    private String formaPagamento;
+
+    private String observacoes;
+
+    private LocalDate dataRetirada;
+
+    private LocalTime horarioRetirada;
+
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
-    private Long id;
-    private String nomeCliente;
-    private Integer quantidade;
-    private String formaPagamento;
-    private String observacoes;
-    private LocalDate dataRetirada;
-    private LocalTime horarioRetirada;
+
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
