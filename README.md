@@ -211,6 +211,30 @@ src/main/java/com/izabelaxavier/keleybolosapi
 - Implementação do mapeamento entre DTOs e entidade
 - Testes realizados via Swagger/OpenAPI
 
+## 📌 09/06/2026 📋
+
+### Melhorias implementadas
+
+- Criação do enum StatusPedido
+- Adição do campo status na entidade Pedido
+- Definição automática do status inicial como RECEBIDO
+- Implementação da atualização de status via API
+- Inclusão do status nas respostas dos pedidos
+
+### Status disponíveis
+
+- RECEBIDO
+- EM_PRODUCAO
+- PRONTO
+- ENTREGUE
+
+### Benefícios
+
+- Controle do andamento dos pedidos
+- Melhor rastreabilidade da produção
+- Base para futuras funcionalidades administrativas
+
+
 ### Funcionalidades adicionadas
 
 - Associação de pedidos a clientes
