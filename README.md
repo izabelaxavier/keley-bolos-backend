@@ -18,7 +18,10 @@ O projeto simula um sistema real de pedidos para confeitaria, permitindo o geren
 - Spring Data JPA
 - Spring Security
 - Spring Validation
-- H2 Database
+- H2 Database (utilizado durante o desenvolvimento inicial)
+- PostgreSQL
+- Docker
+- Docker Compose
 - Lombok
 - Maven
 - Swagger / OpenAPI
@@ -29,22 +32,52 @@ O projeto simula um sistema real de pedidos para confeitaria, permitindo o geren
 # 📌 Funcionalidades
 
 ## 🍞 Produtos
-✅ Criar produto  
-✅ Listar produtos  
-✅ Atualizar produto  
-✅ Remover produto  
+
+✅ Criar produto
+
+✅ Listar produtos
+
+✅ Atualizar produto
+
+✅ Remover produto
 
 ## 🧾 Pedidos
-✅ Criar pedido  
-✅ Listar pedidos  
-✅ Buscar pedido por ID  
-✅ Atualizar pedido  
-✅ Excluir pedido  
+
+✅ Criar pedido
+
+✅ Listar pedidos
+
+✅ Buscar pedido por ID
+
+✅ Atualizar pedido
+
+✅ Excluir pedido
+
 ✅ Associar pedido a cliente
+
+✅ Controle de status do pedido
+
+✅ Cálculo automático do valor total
 
 ---
 
 # ⚙️ Recursos implementados
+
+### Controle de pedidos
+
+- Enum `StatusPedido`
+- Status disponíveis:
+    - RECEBIDO
+    - EM_PRODUCAO
+    - PRONTO
+    - ENTREGUE
+
+- Definição automática do status inicial:
+
+```java
+StatusPedido.RECEBIDO
+```
+- Atualização de status via API
 
 ### Arquitetura
 - Arquitetura em camadas:
@@ -116,7 +149,9 @@ Optional
 
 ### Banco e testes
 
-- Banco H2 em memória
+- H2 Database (utilizado durante o desenvolvimento inicial)
+- PostgreSQL
+- Banco PostgreSQL executado via Docker
 - Testes completos via Postman
 - Documentação interativa via Swagger
 - Testes de:
@@ -138,6 +173,7 @@ src/main/java/com/izabelaxavier/keleybolosapi
 ├── exception
 ├── repository
 └── service
+├── enums
 ```
 
 ---
@@ -211,30 +247,6 @@ src/main/java/com/izabelaxavier/keleybolosapi
 - Implementação do mapeamento entre DTOs e entidade
 - Testes realizados via Swagger/OpenAPI
 
-## 📌 09/06/2026 📋
-
-### Melhorias implementadas
-
-- Criação do enum StatusPedido
-- Adição do campo status na entidade Pedido
-- Definição automática do status inicial como RECEBIDO
-- Implementação da atualização de status via API
-- Inclusão do status nas respostas dos pedidos
-
-### Status disponíveis
-
-- RECEBIDO
-- EM_PRODUCAO
-- PRONTO
-- ENTREGUE
-
-### Benefícios
-
-- Controle do andamento dos pedidos
-- Melhor rastreabilidade da produção
-- Base para futuras funcionalidades administrativas
-
-
 ### Funcionalidades adicionadas
 
 - Associação de pedidos a clientes
@@ -258,6 +270,97 @@ src/main/java/com/izabelaxavier/keleybolosapi
 
 ✅ Exclusão de pedidos
 
+## 📌 09/06/2026 📋
+
+### Melhorias implementadas
+
+- Criação do enum `StatusPedido`
+- Adição do campo `status` na entidade `Pedido`
+- Atualização do `PedidoDTO`
+- Atualização do `PedidoResponseDTO`
+- Definição automática do status inicial como `RECEBIDO`
+- Implementação da atualização de status via API
+- Inclusão do status nas respostas dos pedidos
+- Testes realizados via Swagger/OpenAPI
+
+### Status disponíveis
+
+- RECEBIDO
+- EM_PRODUCAO
+- PRONTO
+- ENTREGUE
+
+### Benefícios
+
+- Controle do andamento dos pedidos
+- Melhor rastreabilidade da produção
+- Base para futuras funcionalidades administrativas
+
+### Fluxo validado
+
+✅ Criação de pedidos com status inicial automático
+
+✅ Atualização de status via API
+
+✅ Consulta de pedidos com status
+
+✅ Persistência do status no banco de dados
+
+✅ Retorno do status nas respostas da API
+
+---
+
+## 📌 10/06/2026 🐳
+
+### Infraestrutura
+
+- Migração do banco H2 para PostgreSQL
+- Configuração da conexão com PostgreSQL
+- Criação do arquivo `docker-compose.yml`
+- Criação do `Dockerfile`
+- Banco PostgreSQL executado via Docker
+- Primeiros testes de containerização da aplicação
+
+### Regras de negócio
+
+- Implementação do cálculo automático do valor total do pedido
+
+```java
+valorTotal = produtoPreco * quantidade
+```
+
+- Inclusão do campo `valorTotal` no `PedidoResponseDTO`
+- Retorno automático do valor total nas respostas da API
+
+### Melhorias
+
+- Integração completa com PostgreSQL validada
+- Persistência dos dados fora do banco H2 em memória
+- Estrutura inicial preparada para deploy
+- Testes realizados via Swagger/OpenAPI e Postman
+
+### Fluxo validado
+
+✅ Cadastro de produtos
+
+✅ Cadastro de pedidos
+
+✅ Cálculo automático do valor total
+
+✅ Persistência em PostgreSQL
+
+✅ Consulta de pedidos com valor total
+
+✅ Banco executando via Docker
+
+### Containerização
+
+✅ Imagem Docker da aplicação gerada com sucesso
+
+✅ Container PostgreSQL executando via Docker
+
+✅ Comunicação da aplicação com PostgreSQL validada
+
 ### Exemplo de resposta
 
 ```json
@@ -270,48 +373,11 @@ src/main/java/com/izabelaxavier/keleybolosapi
   "dataRetirada": "2026-06-10",
   "horarioRetirada": "14:00:00",
   "produtoNome": "Bolo de Chocolate",
-  "produtoPreco": 70,
-  "valorTotal": 140.00
+  "produtoPreco": 70.00,
+  "valorTotal": 140.00,
+  "status": "RECEBIDO"
 }
 ```
----
-
-## 📌 10/06/2026 💰
-
-### Melhorias implementadas
-
-- Adicionado o campo `valorTotal` do tipo `BigDecimal` ao `PedidoResponseDTO`, permitindo que o valor total de cada pedido seja exibido nas respostas da API.
-- Implementada a lógica de cálculo do `valorTotal` no `PedidoService`, que agora multiplica o `produto.preco` pela `quantidade` do pedido, garantindo a precisão monetária.
-
-### Benefícios
-
-- **Transparência Financeira**: Clientes e administradores podem visualizar o custo total de um pedido de forma imediata.
-- **Automação de Cálculos**: Reduz a chance de erros manuais no cálculo do valor final do pedido.
-- **Base para Faturamento**: Fornece um dado essencial para futuras integrações com sistemas de pagamento e faturamento.
-
-### Fluxo validado
-
-✅ Cálculo automático do `valorTotal` na criação do pedido.
-✅ Exibição do `valorTotal` nas respostas de `GET` de pedidos.
-✅ Manutenção do `valorTotal` em atualizações de pedidos (PUT).
-
-### Exemplo de resposta (com `valorTotal`)
-
-```json
-{
-  "id": 1,
-  "nomeCliente": "Izabela Xavier",
-  "quantidade": 2,
-  "formaPagamento": "PIX",
-  "observacoes": "Sem cobertura",
-  "dataRetirada": "2026-06-10",
-  "horarioRetirada": "14:00:00",
-  "produtoNome": "Bolo de Chocolate",
-  "produtoPreco": 145.00,
-  "valorTotal": 290.00
-}
-```
-
 ---
 
 # 📡 Endpoints
@@ -361,7 +427,13 @@ Entrar na pasta:
 cd keley-bolos-backend
 ```
 
-Executar:
+Subir o banco PostgreSQL:
+
+```bash
+docker-compose up -d
+```
+
+Executar a aplicação:
 
 ```bash
 mvn spring-boot:run
@@ -377,14 +449,13 @@ http://localhost:8080
 
 # 🎯 Próximos passos
 
-- [ ] Status do pedido
-- [X] Cálculo de valor total do pedido
-- [ ] PostgreSQL
-- [ ] Docker
+- [ ] Filtro de pedidos por status
+- [ ] Dashboard de pedidos
 - [ ] JWT Authentication
+- [ ] Execução completa da API via Docker Compose
 - [ ] Deploy
-- [ ] Integração Frontend
 - [ ] Painel administrativo
+- [ ] Integração Frontend
 - [ ] Integração WhatsApp
 
 ---
