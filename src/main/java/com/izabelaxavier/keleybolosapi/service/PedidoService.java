@@ -85,57 +85,50 @@ public class PedidoService {
             return Optional.empty();
         }
 
-        Produto produto =
-                produtoRepository.findById(
-                        pedidoDTO.getProdutoId()
-                ).orElseThrow(() ->
-                        new ProdutoNaoEncontradoException(
-                                "Produto não encontrado com ID: "
-                                        + pedidoDTO.getProdutoId()
-                        )
-                );
+        Pedido pedido = pedidoOptional.get();
 
-        Pedido pedido =
-                pedidoOptional.get();
-
-        pedido.setNomeCliente(
-                pedidoDTO.getNomeCliente()
-        );
-
-        pedido.setQuantidade(
-                pedidoDTO.getQuantidade()
-        );
-
-        pedido.setFormaPagamento(
-                pedidoDTO.getFormaPagamento()
-        );
-
-        pedido.setObservacoes(
-                pedidoDTO.getObservacoes()
-        );
-
-        pedido.setDataRetirada(
-                pedidoDTO.getDataRetirada()
-        );
-
-        pedido.setHorarioRetirada(
-                pedidoDTO.getHorarioRetirada()
-        );
-
-        pedido.setProduto(
-                produto
-        );
-
-        if (pedidoDTO.getStatus() != null) {
-            pedido.setStatus(
-                    pedidoDTO.getStatus()
+        // 1. Atualização do Produto (Apenas se um novo ID for enviado)
+        if (pedidoDTO.getProdutoId() != null) {
+            Produto produto = produtoRepository.findById(
+                    pedidoDTO.getProdutoId()
+            ).orElseThrow(() ->
+                    new ProdutoNaoEncontradoException(
+                            "Produto não encontrado com ID: " + pedidoDTO.getProdutoId()
+                    )
             );
+            pedido.setProduto(produto);
         }
 
-        Pedido pedidoAtualizado =
-                pedidoRepository.save(
-                        pedido
-                );
+        // 2. Atualização dos campos básicos (Apenas se não forem nulos no DTO)
+        if (pedidoDTO.getNomeCliente() != null) {
+            pedido.setNomeCliente(pedidoDTO.getNomeCliente());
+        }
+
+        if (pedidoDTO.getQuantidade() != null) {
+            pedido.setQuantidade(pedidoDTO.getQuantidade());
+        }
+
+        if (pedidoDTO.getFormaPagamento() != null) {
+            pedido.setFormaPagamento(pedidoDTO.getFormaPagamento());
+        }
+
+        if (pedidoDTO.getObservacoes() != null) {
+            pedido.setObservacoes(pedidoDTO.getObservacoes());
+        }
+
+        if (pedidoDTO.getDataRetirada() != null) {
+            pedido.setDataRetirada(pedidoDTO.getDataRetirada());
+        }
+
+        if (pedidoDTO.getHorarioRetirada() != null) {
+            pedido.setHorarioRetirada(pedidoDTO.getHorarioRetirada());
+        }
+
+        if (pedidoDTO.getStatus() != null) {
+            pedido.setStatus(pedidoDTO.getStatus());
+        }
+
+        Pedido pedidoAtualizado = pedidoRepository.save(pedido);
 
         return Optional.of(
                 converterParaResponseDTO(
