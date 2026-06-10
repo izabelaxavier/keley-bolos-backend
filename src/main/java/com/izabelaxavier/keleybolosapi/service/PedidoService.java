@@ -42,10 +42,14 @@ public class PedidoService {
         pedido.setStatus(StatusPedido.RECEBIDO);
 
         Pedido pedidoSalvo = pedidoRepository.save(pedido);
-        return converterParaResponseDTO(pedidoSalvo);
+
+        return converterParaResponseDTO(
+                pedidoSalvo
+        );
     }
 
     public List<PedidoResponseDTO> listarTodos() {
+
         return pedidoRepository.findAll()
                 .stream()
                 .map(this::converterParaResponseDTO)
@@ -53,66 +57,153 @@ public class PedidoService {
     }
 
     public Optional<PedidoResponseDTO> buscarPorId(Long id) {
+
         return pedidoRepository.findById(id)
                 .map(this::converterParaResponseDTO);
     }
 
     public boolean deletar(Long id) {
+
         if (!pedidoRepository.existsById(id)) {
             return false;
         }
+
         pedidoRepository.deleteById(id);
+
         return true;
     }
 
-    public Optional<PedidoResponseDTO> atualizar(Long id, PedidoDTO pedidoDTO) {
+    public Optional<PedidoResponseDTO> atualizar(
+            Long id,
+            PedidoDTO pedidoDTO
+    ) {
 
-        Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
+        Optional<Pedido> pedidoOptional =
+                pedidoRepository.findById(id);
 
         if (pedidoOptional.isEmpty()) {
             return Optional.empty();
         }
 
-        Produto produto = produtoRepository.findById(
-                pedidoDTO.getProdutoId()
-        ).orElseThrow(() ->
-                new ProdutoNaoEncontradoException(
-                        "Produto não encontrado com ID: " + pedidoDTO.getProdutoId()
-                )
+        Produto produto =
+                produtoRepository.findById(
+                        pedidoDTO.getProdutoId()
+                ).orElseThrow(() ->
+                        new ProdutoNaoEncontradoException(
+                                "Produto não encontrado com ID: "
+                                        + pedidoDTO.getProdutoId()
+                        )
+                );
+
+        Pedido pedido =
+                pedidoOptional.get();
+
+        pedido.setNomeCliente(
+                pedidoDTO.getNomeCliente()
         );
 
-        Pedido pedido = pedidoOptional.get();
-        pedido.setNomeCliente(pedidoDTO.getNomeCliente());
-        pedido.setQuantidade(pedidoDTO.getQuantidade());
-        pedido.setFormaPagamento(pedidoDTO.getFormaPagamento());
-        pedido.setObservacoes(pedidoDTO.getObservacoes());
-        pedido.setDataRetirada(pedidoDTO.getDataRetirada());
-        pedido.setHorarioRetirada(pedidoDTO.getHorarioRetirada());
-        pedido.setProduto(produto);
+        pedido.setQuantidade(
+                pedidoDTO.getQuantidade()
+        );
+
+        pedido.setFormaPagamento(
+                pedidoDTO.getFormaPagamento()
+        );
+
+        pedido.setObservacoes(
+                pedidoDTO.getObservacoes()
+        );
+
+        pedido.setDataRetirada(
+                pedidoDTO.getDataRetirada()
+        );
+
+        pedido.setHorarioRetirada(
+                pedidoDTO.getHorarioRetirada()
+        );
+
+        pedido.setProduto(
+                produto
+        );
 
         if (pedidoDTO.getStatus() != null) {
-            pedido.setStatus(pedidoDTO.getStatus()); // ← permite atualizar o status
+            pedido.setStatus(
+                    pedidoDTO.getStatus()
+            );
         }
 
-        Pedido pedidoAtualizado = pedidoRepository.save(pedido);
-        return Optional.of(converterParaResponseDTO(pedidoAtualizado));
+        Pedido pedidoAtualizado =
+                pedidoRepository.save(
+                        pedido
+                );
+
+        return Optional.of(
+                converterParaResponseDTO(
+                        pedidoAtualizado
+                )
+        );
     }
 
-    private PedidoResponseDTO converterParaResponseDTO(Pedido pedido) {
+    private PedidoResponseDTO converterParaResponseDTO(
+            Pedido pedido
+    ) {
 
-        PedidoResponseDTO dto = new PedidoResponseDTO();
-        dto.setId(pedido.getId());
-        dto.setNomeCliente(pedido.getNomeCliente());
-        dto.setQuantidade(pedido.getQuantidade());
-        dto.setFormaPagamento(pedido.getFormaPagamento());
-        dto.setObservacoes(pedido.getObservacoes());
-        dto.setDataRetirada(pedido.getDataRetirada());
-        dto.setHorarioRetirada(pedido.getHorarioRetirada());
-        dto.setStatus(pedido.getStatus());
+        PedidoResponseDTO dto =
+                new PedidoResponseDTO();
+
+        dto.setId(
+                pedido.getId()
+        );
+
+        dto.setNomeCliente(
+                pedido.getNomeCliente()
+        );
+
+        dto.setQuantidade(
+                pedido.getQuantidade()
+        );
+
+        dto.setFormaPagamento(
+                pedido.getFormaPagamento()
+        );
+
+        dto.setObservacoes(
+                pedido.getObservacoes()
+        );
+
+        dto.setDataRetirada(
+                pedido.getDataRetirada()
+        );
+
+        dto.setHorarioRetirada(
+                pedido.getHorarioRetirada()
+        );
+
+        dto.setStatus(
+                pedido.getStatus()
+        );
 
         if (pedido.getProduto() != null) {
-            dto.setProdutoNome(pedido.getProduto().getNome());
-            dto.setProdutoPreco(pedido.getProduto().getPreco());
+
+            dto.setProdutoNome(
+                    pedido.getProduto()
+                            .getNome()
+            );
+
+            dto.setProdutoPreco(
+                    pedido.getProduto()
+                            .getPreco()
+            );
+
+            dto.setValorTotal(
+                    pedido.getProduto()
+                            .getPreco()
+                            .multiply(
+                                    java.math.BigDecimal.valueOf(
+                                            pedido.getQuantidade()
+                                    )
+                            )
+            );
         }
 
         return dto;

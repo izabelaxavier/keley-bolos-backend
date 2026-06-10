@@ -27,6 +27,8 @@ public class PedidoResponseDTO {
 
     private BigDecimal produtoPreco;
 
+    private BigDecimal valorTotal;
+
     private StatusPedido status;
 
 }
