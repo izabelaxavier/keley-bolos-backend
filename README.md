@@ -280,8 +280,37 @@ src/main/java/com/izabelaxavier/keleybolosapi
 
 ### Melhorias implementadas
 
-- Adicionado campo `valorTotal` no `PedidoResponseDTO` para exibir o valor total do pedido.
-- Implementada a lógica de cálculo do `valorTotal` no `PedidoService`, multiplicando o preço do produto pela quantidade.
+- Adicionado o campo `valorTotal` do tipo `BigDecimal` ao `PedidoResponseDTO`, permitindo que o valor total de cada pedido seja exibido nas respostas da API.
+- Implementada a lógica de cálculo do `valorTotal` no `PedidoService`, que agora multiplica o `produto.preco` pela `quantidade` do pedido, garantindo a precisão monetária.
+
+### Benefícios
+
+- **Transparência Financeira**: Clientes e administradores podem visualizar o custo total de um pedido de forma imediata.
+- **Automação de Cálculos**: Reduz a chance de erros manuais no cálculo do valor final do pedido.
+- **Base para Faturamento**: Fornece um dado essencial para futuras integrações com sistemas de pagamento e faturamento.
+
+### Fluxo validado
+
+✅ Cálculo automático do `valorTotal` na criação do pedido.
+✅ Exibição do `valorTotal` nas respostas de `GET` de pedidos.
+✅ Manutenção do `valorTotal` em atualizações de pedidos (PUT).
+
+### Exemplo de resposta (com `valorTotal`)
+
+```json
+{
+  "id": 1,
+  "nomeCliente": "Izabela Xavier",
+  "quantidade": 2,
+  "formaPagamento": "PIX",
+  "observacoes": "Sem cobertura",
+  "dataRetirada": "2026-06-10",
+  "horarioRetirada": "14:00:00",
+  "produtoNome": "Bolo de Chocolate",
+  "produtoPreco": 145.00,
+  "valorTotal": 290.00
+}
+```
 
 ---
 
