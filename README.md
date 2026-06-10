@@ -270,9 +270,19 @@ src/main/java/com/izabelaxavier/keleybolosapi
   "dataRetirada": "2026-06-10",
   "horarioRetirada": "14:00:00",
   "produtoNome": "Bolo de Chocolate",
-  "produtoPreco": 70
+  "produtoPreco": 70,
+  "valorTotal": 140.00
 }
 ```
+---
+
+## 📌 10/06/2026 💰
+
+### Melhorias implementadas
+
+- Adicionado campo `valorTotal` no `PedidoResponseDTO` para exibir o valor total do pedido.
+- Implementada a lógica de cálculo do `valorTotal` no `PedidoService`, multiplicando o preço do produto pela quantidade.
+
 ---
 
 # 📡 Endpoints
@@ -339,7 +349,7 @@ http://localhost:8080
 # 🎯 Próximos passos
 
 - [ ] Status do pedido
-- [ ] Cálculo de valor total do pedido
+- [X] Cálculo de valor total do pedido
 - [ ] PostgreSQL
 - [ ] Docker
 - [ ] JWT Authentication
