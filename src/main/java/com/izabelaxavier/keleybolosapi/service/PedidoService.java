@@ -201,4 +201,11 @@ public class PedidoService {
 
         return dto;
     }
+    public List<PedidoResponseDTO> buscarPorStatus(StatusPedido status) {
+
+        return pedidoRepository.findByStatus(status)
+                .stream()
+                .map(this::converterParaResponseDTO)
+                .toList();
+    }
 }

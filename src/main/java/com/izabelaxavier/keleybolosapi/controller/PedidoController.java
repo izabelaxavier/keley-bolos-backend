@@ -3,6 +3,7 @@ package com.izabelaxavier.keleybolosapi.controller;
 import com.izabelaxavier.keleybolosapi.dto.PedidoDTO;
 import com.izabelaxavier.keleybolosapi.dto.PedidoResponseDTO;
 import com.izabelaxavier.keleybolosapi.service.PedidoService;
+import com.izabelaxavier.keleybolosapi.enums.StatusPedido;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -72,4 +73,13 @@ public class PedidoController {
         return responseDTO.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<PedidoResponseDTO>> buscarPorStatus(
+            @PathVariable StatusPedido status) {
+
+        return ResponseEntity.ok(
+                pedidoService.buscarPorStatus(status)
+        );
+    }
+
 }

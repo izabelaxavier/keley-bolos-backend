@@ -378,6 +378,17 @@ valorTotal = produtoPreco * quantidade
   "status": "RECEBIDO"
 }
 ```
+## 📌 11/06/2026 🔍
+### Melhorias implementadas
+- Implementação do endpoint `GET /pedidos/status/{status}` utilizando `@PathVariable`.
+- Criação do Query Method `findByStatus(StatusPedido status)` no `PedidoRepository` aproveitando os métodos derivados do Spring Data JPA.
+- Desenvolvimento da lógica de negócios na camada `PedidoService` com processamento de listas via Stream API (`.stream().map().toList()`).
+- Garantia de consistência das regras de negócio, mantendo o cálculo automático do `valorTotal` com `BigDecimal` ativo também nas consultas filtradas.
+
+### Benefícios
+- **Otimização de Consultas:** Evita o carregamento desnecessário de todos os pedidos salvos no PostgreSQL para filtrar no cliente.
+- **Preparação para o Frontend:** Facilita a integração com a tela da cozinha ou de entregas da confeitaria, que precisam listar apenas status específicos de produção.
+
 ---
 
 # 📡 Endpoints
@@ -400,6 +411,7 @@ valorTotal = produtoPreco * quantidade
 | GET | /pedidos/{id} |
 | PUT | /pedidos/{id} |
 | DELETE | /pedidos/{id} |
+| GET    | /pedidos/status/{status} |
 
 ---
 
@@ -449,7 +461,6 @@ http://localhost:8080
 
 # 🎯 Próximos passos
 
-- [ ] Filtro de pedidos por status
 - [ ] Dashboard de pedidos
 - [ ] JWT Authentication
 - [ ] Execução completa da API via Docker Compose
