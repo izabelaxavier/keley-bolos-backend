@@ -187,15 +187,19 @@ src/main/java/com/izabelaxavier/keleybolosapi
 - Integração H2
 - Primeiros testes Postman
 
+---
+
 ## 📌 14/05/2026
 - Configuração inicial Spring Security
 - Organização da arquitetura
+---
 
 ## 📌 15/05/2026
 - Criação entidade Pedido
 - Implementação LocalDate e LocalTime
 - Modelagem inicial
 
+---
 ## 📌 18/05/2026 🚀
 - Relacionamento Pedido → Produto
 - Repository e Controller de pedidos
@@ -203,6 +207,7 @@ src/main/java/com/izabelaxavier/keleybolosapi
 - Uso de BigDecimal
 - Testes POST / GET
 
+---
 ## 📌 19/05/2026 ⚡
 - GET /pedidos/{id}
 - PUT /pedidos/{id}
@@ -210,18 +215,22 @@ src/main/java/com/izabelaxavier/keleybolosapi
 - CRUD completo
 - Tratamento 404 / 200 / 204
 
+---
 ## 📌 20/05/2026 🏗️
 - Camada Service
 - Refatoração Controllers
 - Centralização das regras
 - Uso de Optional
 
+---
 ## 📌 21/05/2026 🛡️
 - Bean Validation
 - Global Exception Handler
 - Respostas padronizadas
 - Tratamento de 400 Bad Request
 - Integração Swagger / OpenAPI
+
+---
 
 ## 📌 25/05/2026 🚨
 - Criação da exceção personalizada `ProdutoNaoEncontradoException`
@@ -234,7 +243,9 @@ src/main/java/com/izabelaxavier/keleybolosapi
     - Produto existente → 201 Created
     - Produto inexistente → 404 Not Found
     - Dados inválidos → 400 Bad Request
-    
+
+---
+
 ## 📌 08/06/2026 🎂
 
 ### Melhorias implementadas
@@ -269,6 +280,8 @@ src/main/java/com/izabelaxavier/keleybolosapi
 ✅ Atualização de pedidos
 
 ✅ Exclusão de pedidos
+
+---
 
 ## 📌 09/06/2026 📋
 
@@ -377,17 +390,118 @@ valorTotal = produtoPreco * quantidade
   "valorTotal": 140.00,
   "status": "RECEBIDO"
 }
+
 ```
+---
+
 ## 📌 11/06/2026 🔍
+
 ### Melhorias implementadas
-- Implementação do endpoint `GET /pedidos/status/{status}` utilizando `@PathVariable`.
-- Criação do Query Method `findByStatus(StatusPedido status)` no `PedidoRepository` aproveitando os métodos derivados do Spring Data JPA.
-- Desenvolvimento da lógica de negócios na camada `PedidoService` com processamento de listas via Stream API (`.stream().map().toList()`).
-- Garantia de consistência das regras de negócio, mantendo o cálculo automático do `valorTotal` com `BigDecimal` ativo também nas consultas filtradas.
+
+* Implementação do endpoint `GET /pedidos/status/{status}`
+* Criação do método `findByStatus(StatusPedido status)` no `PedidoRepository`
+* Desenvolvimento da lógica de busca por status na camada `PedidoService`
+* Conversão automática dos resultados para `PedidoResponseDTO`
+* Integração completa com o enum `StatusPedido`
+* Testes realizados via Swagger/OpenAPI
+
+### Funcionalidades adicionadas
+
+* Consulta de pedidos por status
+* Filtragem de pedidos diretamente no banco de dados utilizando Spring Data JPA
+* Retorno apenas dos pedidos pertencentes ao status informado
+
+### Fluxo validado
+
+✅ Consulta de pedidos RECEBIDO
+
+✅ Consulta de pedidos EM_PRODUCAO
+
+✅ Consulta de pedidos PRONTO
+
+✅ Consulta de pedidos ENTREGUE
+
+✅ Retorno de lista filtrada de pedidos
+
+✅ Integração com PostgreSQL
+
+### Exemplo
+
+```http
+GET /pedidos/status/RECEBIDO
+```
+
+Resposta:
+
+```json
+[
+  {
+    "id": 1,
+    "nomeCliente": "Izabela Xavier",
+    "status": "RECEBIDO"
+  }
+]
+```
 
 ### Benefícios
-- **Otimização de Consultas:** Evita o carregamento desnecessário de todos os pedidos salvos no PostgreSQL para filtrar no cliente.
-- **Preparação para o Frontend:** Facilita a integração com a tela da cozinha ou de entregas da confeitaria, que precisam listar apenas status específicos de produção.
+
+* Otimização das consultas de pedidos
+* Base para dashboards administrativos
+* Facilita futuras telas de produção e entrega
+* Melhor organização do fluxo operacional da confeitaria
+
+---
+
+## 📌 15/06/2026 🔄
+
+### Melhorias implementadas
+
+* Criação do endpoint PATCH `/pedidos/{id}/status`
+* Atualização parcial do status dos pedidos
+* Implementação da classe `AtualizarStatusDTO`
+* Separação da regra de atualização de status do PUT geral
+* Integração completa com Swagger/OpenAPI
+
+### Fluxo validado
+
+✅ RECEBIDO → EM_PRODUCAO
+
+✅ EM_PRODUCAO → PRONTO
+
+✅ PRONTO → ENTREGUE
+
+✅ Atualização parcial sem necessidade de alterar outros campos do pedido
+
+✅ Persistência do status no PostgreSQL
+
+✅ Consulta dos pedidos com status atualizado
+
+---
+
+### Dashboard de pedidos
+
+* Criação do endpoint GET `/pedidos/dashboard`
+* Contagem de pedidos por status
+* Retorno consolidado para painel administrativo
+* Integração com `StatusPedido`
+* Testes realizados via Swagger/OpenAPI
+
+### Exemplo de resposta
+
+```json
+{
+  "recebidos": 1,
+  "emProducao": 1,
+  "prontos": 0,
+  "entregues": 0
+}
+```
+
+### Benefícios
+
+* Visão rápida do andamento dos pedidos
+* Base para criação do painel administrativo
+* Métricas para acompanhamento da produção
 
 ---
 

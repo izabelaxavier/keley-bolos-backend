@@ -10,6 +10,7 @@ import com.izabelaxavier.keleybolosapi.repository.PedidoRepository;
 import com.izabelaxavier.keleybolosapi.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.izabelaxavier.keleybolosapi.dto.DashboardDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -207,5 +208,56 @@ public class PedidoService {
                 .stream()
                 .map(this::converterParaResponseDTO)
                 .toList();
+    }
+    public Optional<PedidoResponseDTO> atualizarStatus(
+            Long id,
+            StatusPedido status
+    ) {
+
+        Optional<Pedido> pedidoOptional =
+                pedidoRepository.findById(id);
+
+        if (pedidoOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Pedido pedido = pedidoOptional.get();
+
+        pedido.setStatus(status);
+
+        Pedido pedidoAtualizado =
+                pedidoRepository.save(pedido);
+
+        return Optional.of(
+                converterParaResponseDTO(
+                        pedidoAtualizado
+                )
+        );
+    }
+    public DashboardDTO dashboard() {
+
+        DashboardDTO dto = new DashboardDTO();
+
+        dto.setRecebidos(
+                pedidoRepository.findByStatus(StatusPedido.RECEBIDO)
+                        .size()
+        );
+
+        dto.setEmProducao(
+                pedidoRepository.findByStatus(StatusPedido.EM_PRODUCAO)
+                        .size()
+        );
+
+        dto.setProntos(
+                pedidoRepository.findByStatus(StatusPedido.PRONTO)
+                        .size()
+        );
+
+        dto.setEntregues(
+                pedidoRepository.findByStatus(StatusPedido.ENTREGUE)
+                        .size()
+        );
+
+        return dto;
     }
 }

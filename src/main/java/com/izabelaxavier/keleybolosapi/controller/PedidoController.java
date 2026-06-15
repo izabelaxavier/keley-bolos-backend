@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.izabelaxavier.keleybolosapi.dto.StatusPedidoDTO;
+import com.izabelaxavier.keleybolosapi.dto.DashboardDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,6 +81,27 @@ public class PedidoController {
 
         return ResponseEntity.ok(
                 pedidoService.buscarPorStatus(status)
+        );
+    }
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<PedidoResponseDTO> atualizarStatus(
+            @PathVariable Long id,
+            @RequestBody StatusPedidoDTO dto) {
+
+        Optional<PedidoResponseDTO> responseDTO =
+                pedidoService.atualizarStatus(
+                        id,
+                        dto.getStatus()
+                );
+
+        return responseDTO.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/dashboard")
+    public ResponseEntity<DashboardDTO> dashboard() {
+
+        return ResponseEntity.ok(
+                pedidoService.dashboard()
         );
     }
 
