@@ -11,6 +11,8 @@ import com.izabelaxavier.keleybolosapi.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.izabelaxavier.keleybolosapi.dto.DashboardDTO;
+import com.izabelaxavier.keleybolosapi.dto.DashboardFinanceiroDTO;
+import java.math.BigDecimal;
 
 import java.util.List;
 import java.util.Optional;
@@ -259,5 +261,29 @@ public class PedidoService {
         );
 
         return dto;
+    }
+    public DashboardFinanceiroDTO dashboardFinanceiro() {
+
+        List<Pedido> pedidos = pedidoRepository.findAll();
+
+        BigDecimal valorTotal = pedidos.stream()
+                .map(pedido ->
+                        pedido.getProduto()
+                                .getPreco()
+                                .multiply(
+                                        BigDecimal.valueOf(
+                                                pedido.getQuantidade()
+                                        )
+                                )
+                )
+                .reduce(
+                        BigDecimal.ZERO,
+                        BigDecimal::add
+                );
+
+        return new DashboardFinanceiroDTO(
+                (long) pedidos.size(),
+                valorTotal
+        );
     }
 }

@@ -505,6 +505,25 @@ Resposta:
 
 ---
 
+### Dashboard financeiro
+
+- Criação do endpoint GET `/pedidos/dashboard/financeiro`
+- Contagem total de pedidos
+- Soma automática do valor total vendido
+- Uso de Stream API
+- Uso de reduce() para agregação financeira
+- Testes realizados via Swagger/OpenAPI
+
+Exemplo:
+
+```
+{
+"totalPedidos": 2,
+"valorTotalVendido": 210
+}
+```
+---
+
 # 📡 Endpoints
 
 ## Produtos

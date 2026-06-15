@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.izabelaxavier.keleybolosapi.dto.StatusPedidoDTO;
 import com.izabelaxavier.keleybolosapi.dto.DashboardDTO;
+import com.izabelaxavier.keleybolosapi.dto.DashboardFinanceiroDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -102,6 +103,13 @@ public class PedidoController {
 
         return ResponseEntity.ok(
                 pedidoService.dashboard()
+        );
+    }
+    @GetMapping("/dashboard/financeiro")
+    public ResponseEntity<DashboardFinanceiroDTO> dashboardFinanceiro() {
+
+        return ResponseEntity.ok(
+                pedidoService.dashboardFinanceiro()
         );
     }
 
