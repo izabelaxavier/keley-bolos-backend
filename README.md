@@ -523,6 +523,87 @@ Exemplo:
 }
 ```
 ---
+## 📌 16/06/2026 🔐
+
+### Sistema de autenticação
+
+* Criação da entidade `User`
+* Criação da tabela `usuarios` no PostgreSQL
+* Implementação do `UserRepository`
+* Criação do DTO `LoginDTO`
+* Criação do DTO `LoginResponseDTO`
+* Implementação da camada `AuthService`
+* Criação do endpoint `POST /auth/login`
+* Integração do login com PostgreSQL
+* Validação de credenciais por e-mail e senha
+* Testes realizados via Swagger/OpenAPI
+
+### Fluxo implementado
+
+1. Recebe e-mail e senha via API
+2. Busca usuário pelo e-mail no banco de dados
+3. Valida a senha informada
+4. Retorna resposta de autenticação
+
+### Fluxo validado
+
+✅ Usuário encontrado
+
+✅ Senha válida
+
+✅ Retorno HTTP 200 OK
+
+✅ Login realizado com sucesso
+
+✅ Consulta ao PostgreSQL via Spring Data JPA
+
+### Testes realizados
+
+#### Login válido
+
+```json
+{
+  "email": "izabelaxavier89@gmail.com",
+  "senha": "123456"
+}
+```
+
+Resposta:
+
+```json
+{
+  "mensagem": "Login realizado com sucesso"
+}
+```
+
+#### Login inválido
+
+```json
+{
+  "email": "izabelaxavier89@gmail.com",
+  "senha": "999999"
+}
+```
+
+Resposta atual:
+
+```text
+500 Internal Server Error
+```
+
+### Próximas melhorias
+
+* Tratamento de exceções para autenticação
+* Criação de `UsuarioNaoEncontradoException`
+* Criação de `SenhaInvalidaException`
+* Retorno HTTP 401 Unauthorized
+* Criptografia de senha com BCrypt
+* Implementação de JWT Authentication
+
+```
+```
+
+---
 
 # 📡 Endpoints
 
