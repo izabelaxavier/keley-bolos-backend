@@ -601,50 +601,26 @@ Resposta atual:
 * Implementação de JWT Authentication
 
 ---
+## 📌 17/06/2026 🔐 - Especialização da Camada de Segurança e Erros
 
-## 📌 17/06/2026 🔐
+Nesta etapa, o foco foi elevar a maturidade da API através da implementação de um sistema robusto de tratamento de exceções e refatoração da lógica de autenticação.
 
-### Sistema de Autenticação
+### 🛡️ Refatoração da Camada de Autenticação
+*   **AuthService:** Reestruturação completa da lógica de login para remover retornos genéricos e melhorar a legibilidade do código.
+*   **Busca Especializada:** Implementação de busca de usuários por e-mail utilizando `Optional` do Java 8+ integrado ao Spring Data JPA para um fluxo mais funcional.
+*   **Lógica de Negócio:** Separação clara entre erro de identificação (usuário não encontrado) e erro de credencial (senha incorreta), aumentando a precisão do feedback da API.
 
-- Criação da entidade User
-- Criação do UserRepository
-- Implementação do AuthService
-- Criação do endpoint POST `/auth/login`
-- Busca de usuários por e-mail via Spring Data JPA
-- Validação de credenciais
-- Integração com PostgreSQL
+### ⚠️ Tratamento Global de Exceções (Exception Handler)
+*   **Centralização:** Criação da classe `GlobalExceptionHandler` utilizando a anotação `@ControllerAdvice` para interceptar e tratar erros de forma global em toda a aplicação.
+*   **Mapeamento Semântico de Status HTTP:**
+  *   `UsuarioNaoEncontradoException` ➔ **404 Not Found**: Indica que o recurso de usuário solicitado não existe no banco de dados.
+  *   `SenhaInvalidaException` ➔ **401 Unauthorized**: Garante que falhas de credenciais sigam rigorosamente os padrões de segurança e autenticação.
+  *   `MethodArgumentNotValidException` ➔ **400 Bad Request**: Captura e formata automaticamente erros de validação do Bean Validation, retornando mensagens claras ao cliente.
 
-### Tratamento Global de Exceções
-
-- Criação do GlobalExceptionHandler
-- Tratamento de validações do Bean Validation
-- Tratamento de ProdutoNaoEncontradoException
-- Tratamento de RuntimeException para autenticação
-
-### Fluxos Testados
-
-✅ Login válido → 200 OK
-
-✅ Senha inválida → 401 Unauthorized
-
-✅ Usuário não encontrado → 404 Not Found
-
-### Exemplo de Login
-
-POST `/auth/login`
-
-```json
-{
-  "email": "izabelaxavier89@gmail.com",
-  "senha": "123456"
-}
-
-```
-```
-{
-  "mensagem": "Login realizado com sucesso"
-}
-```
+### 🧪 Ciclo de Testes e Validação (Swagger)
+*   **Cenário de Sucesso:** Validação de login com credenciais corretas, retornando `200 OK` e o DTO de resposta com mensagem de sucesso.
+*   **Cenário de Segurança:** Validação de senha incorreta, garantindo o retorno do status `401` com a mensagem "Senha inválida" tratada pelo Handler.
+*   **Cenário de Existência:** Validação de e-mail inexistente, garantindo o retorno do status `404` com a mensagem "Usuário não encontrado", evitando vazamento de stacktraces internas.
 
 ---
 
