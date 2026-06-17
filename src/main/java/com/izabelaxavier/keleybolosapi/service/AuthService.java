@@ -6,6 +6,8 @@ import com.izabelaxavier.keleybolosapi.entity.User;
 import com.izabelaxavier.keleybolosapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.izabelaxavier.keleybolosapi.exception.UsuarioNaoEncontradoException;
+import com.izabelaxavier.keleybolosapi.exception.SenhaInvalidaException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,10 +20,14 @@ public class AuthService {
         User usuario = userRepository
                 .findByEmail(dto.getEmail())
                 .orElseThrow(() ->
-                        new RuntimeException("Usuário não encontrado"));
+                        new UsuarioNaoEncontradoException(
+                                "Usuário não encontrado"
+                        ));
 
         if (!usuario.getSenha().equals(dto.getSenha())) {
-            throw new RuntimeException("Senha inválida");
+            throw new SenhaInvalidaException(
+                    "Senha inválida"
+            );
         }
 
         return new LoginResponseDTO(

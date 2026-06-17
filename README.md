@@ -600,7 +600,50 @@ Resposta atual:
 * Criptografia de senha com BCrypt
 * Implementação de JWT Authentication
 
+---
+
+## 📌 17/06/2026 🔐
+
+### Sistema de Autenticação
+
+- Criação da entidade User
+- Criação do UserRepository
+- Implementação do AuthService
+- Criação do endpoint POST `/auth/login`
+- Busca de usuários por e-mail via Spring Data JPA
+- Validação de credenciais
+- Integração com PostgreSQL
+
+### Tratamento Global de Exceções
+
+- Criação do GlobalExceptionHandler
+- Tratamento de validações do Bean Validation
+- Tratamento de ProdutoNaoEncontradoException
+- Tratamento de RuntimeException para autenticação
+
+### Fluxos Testados
+
+✅ Login válido → 200 OK
+
+✅ Senha inválida → 401 Unauthorized
+
+✅ Usuário não encontrado → 404 Not Found
+
+### Exemplo de Login
+
+POST `/auth/login`
+
+```json
+{
+  "email": "izabelaxavier89@gmail.com",
+  "senha": "123456"
+}
+
 ```
+```
+{
+  "mensagem": "Login realizado com sucesso"
+}
 ```
 
 ---
@@ -625,8 +668,17 @@ Resposta atual:
 | GET | /pedidos/{id} |
 | PUT | /pedidos/{id} |
 | DELETE | /pedidos/{id} |
-| GET    | /pedidos/status/{status} |
+| PATCH | /pedidos/{id}/status |
+| GET | /pedidos/status/{status} |
+| GET | /pedidos/dashboard |
+| GET | /pedidos/dashboard/financeiro |
 
+
+## Autenticação
+
+| Método | Endpoint |
+|---------|-----------|
+| POST | /auth/login |
 ---
 
 # 📖 Swagger
@@ -675,7 +727,6 @@ http://localhost:8080
 
 # 🎯 Próximos passos
 
-- [ ] Dashboard de pedidos
 - [ ] JWT Authentication
 - [ ] Execução completa da API via Docker Compose
 - [ ] Deploy

@@ -56,4 +56,32 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(
+            UsuarioNaoEncontradoException.class
+    )
+    public ResponseEntity<String>
+    tratarUsuarioNaoEncontrado(
+            UsuarioNaoEncontradoException ex
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ex.getMessage());
+
+    }
+
+    @ExceptionHandler(
+            SenhaInvalidaException.class
+    )
+    public ResponseEntity<String>
+    tratarSenhaInvalida(
+            SenhaInvalidaException ex
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ex.getMessage());
+
+    }
+
 }
